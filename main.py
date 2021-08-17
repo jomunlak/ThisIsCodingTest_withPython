@@ -1,39 +1,38 @@
-from collections import deque
+import itertools
 
-n, m, k, x = map(int, input().split())
+n = int(input())
+nums = list(map(int, input().split()))
+opsIndex = list(map(int, input().split()))
+opsLen = sum(opsIndex)
+ops = []
+for i in range(len(opsIndex)):
+  for j in range(opsIndex[i]):
+    ops.append(i)
+# ops : 쓸 수 있는 연산자들의 리스트
+opsPm = list(itertools.product(ops, repeat = (3)))
+# 0 : +   1:-   2:*    3:/
 
-graph = [[] for _ in range(n+1)] # 간선 저장 2차원 리스트
-distance = [-1] * (n + 1)
+minRes = 999999999
+maxRes = -999999999
 
-for i in range(m):
-  src, dest = map(int, input().split())
-  graph[src].append(dest)
-  # graph[1 ~ n]에 각 노드에 인접한 노드의 번호들이 저장되어있다. 
-
-q = deque()
-q.append(x) # 시작지점 정하기.
-distance[x] = 0
-
-while q:
-
-  now = q.popleft()
-
-  for next_node in graph[now]:
-    if distance[next_node] == -1:
-      #아직 방문하지 않은 노드라면
-      distance[next_node] = distance[now] + 1 
-      q.append(next_node) 
+for i in opsPm:
+  result = nums[0]
+  for j in range(opsLen):
+    if i[j] == 0:
+      result += nums[j+1]
+    elif i[j] == 1:
+      result -= nums[j+1]
+    elif i[j] == 2:
+      result *= nums[j+1]
     else:
-      continue
+      if result < 0:
+        result = -(-result//nums[j+1])
+      else:
+        result //= nums[j+1]
+  minRes = min(result, minRes)
+  maxRes = max(result, maxRes)
 
-sortQ = []
-for i in range(len(distance)):
-  if distance[i] == k:
-    sortQ.append(i)
-if len(sortQ) == 0:
-  sortQ.append(-1)
-  
-sortQ.sort()
-for i in sortQ:
-  print(i)  
+print(maxRes)
+print(minRes)
+
 
