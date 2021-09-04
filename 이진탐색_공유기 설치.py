@@ -1,5 +1,6 @@
 n,c = map(int, input().split())
 houses = [int(input()) for _ in range(n)]
+houses.sort()
 
 start = 1 # 최소거리
 end = houses[-1] - houses[0] # 최대 거리
