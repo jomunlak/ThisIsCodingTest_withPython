@@ -19,15 +19,14 @@ parent = [0] * (v+1)              # 부모 리스트
 for i in range(1, v+1): parent[i] = i
 # 부모 리스트 초기화
 
+cycle = False
 for i in range(e):
   a, b = map(int, input().split())
-  union(parent, a, b)
+  if find(parent, a) == find(parent, b): 
+    cycle = True
+    break
+  else:
+    union(a, b)
 
-print("각 원소가 속한 집합: ", end ="")
-for i in range(1, v+1):
-  print(find(parent, i), end = " ")
-
-print()
-print("부모 테이블 내용 : ", end = "")
-for i in parent:
-  print(i, end = " ")
+if cycle: print("사이클 발생")
+else: print("사이클 발생 안함")

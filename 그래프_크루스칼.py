@@ -1,5 +1,6 @@
 
-# 서로소 집합 자료구조 구현
+# 크루스칼 알고리즘
+
 def find(parent ,x): # 경로압축이 적용된 find메서드
   if parent[x] != x:
     parent[x] = find(parent, parent[x])
@@ -19,15 +20,18 @@ parent = [0] * (v+1)              # 부모 리스트
 for i in range(1, v+1): parent[i] = i
 # 부모 리스트 초기화
 
+edges = [] # 모든 간선의 정보를 담은 리스트
+result = 0
+
 for i in range(e):
-  a, b = map(int, input().split())
-  union(parent, a, b)
+  a, b, c = map(int, input().split())
+  edges.append((c, a, b))
 
-print("각 원소가 속한 집합: ", end ="")
-for i in range(1, v+1):
-  print(find(parent, i), end = " ")
+edges.sort()
 
-print()
-print("부모 테이블 내용 : ", end = "")
-for i in parent:
-  print(i, end = " ")
+for cost, v1, v2 in edges:
+  if find(parent, v1) != find(parent, v2): 
+    union(parent, v1, v2)
+    result += cost
+
+print(result) # 최소신장트리의 모든 edge의 cost를 합한 값
