@@ -1,5 +1,7 @@
-# 도시 분할 계획
-# 서로소 집합 자료구조 구현
+import heapq
+import sys
+input = sys.stdin.readline
+
 def find(parent ,x): # 경로압축이 적용된 find메서드
   if parent[x] != x:
     parent[x] = find(parent, parent[x])
@@ -14,22 +16,26 @@ def union(parent, a, b): # a 노드와 b 노드를 union한다.
   else: parent[a] = b
 
 n, m = map(int, input().split())
-parent = [0] * (n+1)
-for i in range(n+1): parent[i] = i
+parent = list(range(n+1))
 
 edges = []
 for i in range(m):
   s, e, cost = map(int, input().split())
-  edges.append((cost, s, e))
-edges.sort()
+  heapq.heappush(edges, (cost, s, e))
 
 result = 0
 maxValue = 0
-for cost, s, e in edges:
-  if find(parent, s) == find(parent, e): continue
-  else:
+count = n-2
+while edges:
+  cost, s, e = heapq.heappop(edges)
+  if find(parent, s) != find(parent, e):
     union(parent, s, e)
     result += cost
-    maxValue = cost
+    count -= 1
+   
+  if count == 0: break
+print(result)
 
-print(result - maxValue)
+# 기본 아이디어는 최소신장트리를 구하는 알고리즘과 같지만
+# 도시를 두개로 분할해야하기 때문에 최소신장트리를 구한 후 최대엣지를 하나삭제해주면
+# 주어진 조건에 만족하는 답을 구할 수 있다.
