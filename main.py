@@ -1,17 +1,15 @@
-# 문자열 뒤집기
 
-data = input()
-prev = data[0]
 
-result0 = 0
-result1 = 0
+n = int(input())
+coins = list(map(int, input().split()))
+coins.sort()
 
-for d in data[1:]:
-  if d != prev:
-    if prev == '0': result0 += 1
-    else: result1 += 1
-  prev = d
+target = 1
+for x in coins:
+  if target < x:
+    break
+  target += x
 
-if prev == '0': result0 += 1
-else: result1 += 1
-print(min(result0, result1))
+print(target)
+
+# target과 같거나 작은 x에 대해 target + x 까지의 모든 수를 만들 수 있다.???????????????
