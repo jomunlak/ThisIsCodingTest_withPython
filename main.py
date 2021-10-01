@@ -1,17 +1,17 @@
-# 아기 상어
-from collections import deque
-n = int(input())
-graph = []
-shark = (0, 0, 0)
-for i in range(n):
-  data = list(map(int, input().split()))
-  graph.append(data)
-  for j in range(n):
-    if data[j] == 9: shark = (i, j, 2)
+# 문자열 뒤집기
 
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1] # 상 하 좌 우
+data = input()
+prev = data[0]
 
-def bfs(graph, shark):
-  q = deque()
-# king joong e
+result0 = 0
+result1 = 0
+
+for d in data[1:]:
+  if d != prev:
+    if prev == '0': result0 += 1
+    else: result1 += 1
+  prev = d
+
+if prev == '0': result0 += 1
+else: result1 += 1
+print(min(result0, result1))

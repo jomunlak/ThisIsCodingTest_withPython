@@ -1,4 +1,4 @@
-
+# 모험가 길드
 n = int(input())
 mohumga = list(map(int, input().split()))
 mohumga.sort()
